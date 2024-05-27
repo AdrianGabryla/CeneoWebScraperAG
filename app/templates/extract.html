@@ -1,21 +1,27 @@
-{%  extends 'base.html' %}
-
+{% extends 'base.html' %}
 {% block content %}
-    <h2>Ekstrakcja opinii</h2>
+    <h2 class="text-center mt-3 mb-3">Ekstrakcja opinii</h2>
     {% if error is defined %}
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-      <strong> <i class="bi bi-exclamation-diamond-fill"></i> Warning! </strong> {{error}}
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      </button>
-    </div>
-    {% endif %}
-    <form action="" method="post">
-      <div class="row g-3 align-items-center">
-        <div class="col-auto">
-          <!-- <label for="product_id" class="col-form-label">Product code</label> -->
-          <input type="text" class="form-control" name="product_id" id="product_id" aria-describedby="idHelpInline" placeholder="Product code">
-          <button type="submit" class="btn btn-danger">Submit</button>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong> <i class="bi bi-exclamation-diamond-fill"></i> Uwaga!</strong> {{error}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-      </div>
+    {% endif %}
+    <form action="{{ url_for('extract') }}" method="post">
+        <div class="row g-3 align-items-center">
+            <div class="col-auto">
+                <label for="product_id" class="col-form-label">Kod produktu</label>
+            </div>
+            <div class="col-auto">
+                <input type="text" name="product_id" id="product_id" class="form-control" aria-describedby="idHelpInline" placeholder="Podaj kod produktu">
+            </div>
+            <div class="col-auto">
+                <span id="idHelpInline" class="form-text"> Kod produktu składa się z 8-10 cyfr.
+                </span>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-danger">Pobierz opinie</button>
+            </div>
+        </div>
     </form>
 {% endblock %}

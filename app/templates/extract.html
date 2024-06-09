@@ -1,26 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2 class="text-center mt-3 mb-3">Ekstrakcja opinii</h2>
+    <h2 class="text-center mt-3 mb-3">Opinion Extraction</h2>
     {% if error is defined %}
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong> <i class="bi bi-exclamation-diamond-fill"></i> Uwaga!</strong> {{error}}
+            <strong> <i class="bi bi-exclamation-diamond-fill"></i> Warning!</strong> {{error}}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     {% endif %}
     <form action="{{ url_for('extract') }}" method="post">
         <div class="row g-3 align-items-center">
             <div class="col-auto">
-                <label for="product_id" class="col-form-label">Kod produktu</label>
+                <input type="text" name="product_id" id="product_id" class="form-control" aria-describedby="idHelpInline" placeholder="Product code">
             </div>
             <div class="col-auto">
-                <input type="text" name="product_id" id="product_id" class="form-control" aria-describedby="idHelpInline" placeholder="Podaj kod produktu">
-            </div>
-            <div class="col-auto">
-                <span id="idHelpInline" class="form-text"> Kod produktu składa się z 8-10 cyfr.
+                <span id="idHelpInline" class="form-text"> Product code consits of 8 to 10 letters.
                 </span>
             </div>
             <div class="col-auto">
-                <button type="submit" class="btn btn-danger">Pobierz opinie</button>
+                <button type="submit" class="btn btn-danger">Extract opinion</button>
             </div>
         </div>
     </form>

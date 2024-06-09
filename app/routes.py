@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request, redirect, url_for, send_file
+from flask import render_template, request, redirect, url_for, send_file, Flask, jsonify, send_from_directory
 from bs4 import BeautifulSoup
 import pandas as pd
 import numpy as np
@@ -68,12 +68,13 @@ def extract():
 
 @app.route('/products')
 def products():
-    products_list = [filename.split(".")[0] for filename in os.listdir("app/opinions")]
-    products = []
-    for product_id in products_list:
-        with open (f"app/products/{product_id}.json", "r", encoding="UTF=8") as jf:
-            products.append(json.load(jf))
-    return render_template("products.html", products=products)
+    return render_template("products.html")
+    #products_list = [filename.split(".")[0] for filename in os.listdir("app/opinions")]
+    #products = []
+    #for product_id in products_list:
+        #with open (f"app/products/{product_id}.json", "r", encoding="UTF=8") as jf:
+            #products.append(json.load(jf))
+    #return render_template("products.html", products=products)
 
 @app.route('/about')
 def about():
@@ -97,3 +98,21 @@ def download_csv(product_id):
 @app.route('/product/download_xlsx/<product_id>')
 def download_xlsx(product_id):
     pass
+
+PRODUCTS_FOLDER = os.path.join(app.root_path, 'products')
+
+@app.route('/api/products', methods=['GET'])
+def list_products():
+    try:
+        files = os.listdir(PRODUCTS_FOLDER)
+        json_files = [f for f in files if f.endswith('.json')]
+        return jsonify(json_files)
+    except Exception as e:
+        return str(e), 500
+
+@app.route('/api/products/<filename>', methods=['GET'])
+def get_product(filename):
+    try:
+        return send_from_directory(PRODUCTS_FOLDER, filename)
+    except Exception as e:
+        return str(e), 500
